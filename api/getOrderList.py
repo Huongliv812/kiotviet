@@ -1,33 +1,33 @@
 import requests
 
-def get_order_list(haravan_token, status=None, created_at_min=None, created_at_max=None, limit=None, page=None, order=None):
-    url = 'https://apis.haravan.com/com/orders.json'
-    
+def get_order_list(kiotviet_token, retailer, page_size=None, current_item=None, order_by=None, order_direction=None, include_payment=False, include_order_delivery=False):
+    url = 'https://public.kiotapi.com/orders/'
+
     headers = {
-        'Authorization': f'Bearer {haravan_token}',
-        'Content-Type': 'application/json'
+        'Authorization': f'Bearer {kiotviet_token}',
+        'Retailer': retailer
     }
 
     # Tham số truy vấn
     params = {}
 
-    if status:
-        params['status'] = status
-    if created_at_min:
-        params['created_at_min'] = created_at_min
-    if created_at_max:
-        params['created_at_max'] = created_at_max
-    if limit:
-        params['limit'] = limit
-    if page:
-        params['page'] = page
-    if order:
-        params['order'] = order
+    if page_size:
+        params['pageSize'] = page_size
+    if current_item:
+        params['currentItem'] = current_item
+    if order_by:
+        params['orderBy'] = order_by
+    if order_direction:
+        params['orderDirection'] = order_direction
+    if include_payment:
+        params['includePayment'] = str(include_payment).lower()
+    if include_order_delivery:
+        params['includeOrderDelivery'] = str(include_order_delivery).lower()
 
     # Gọi API
     response = requests.get(url, headers=headers, params=params)
 
-    # Kiểm tra response
+    # Kiểm tra kết quả
     if response.status_code == 200:
         print("Order list retrieved successfully.")
         return response.json()  # Trả về JSON chứa danh sách đơn hàng

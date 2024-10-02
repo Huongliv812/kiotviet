@@ -1,22 +1,30 @@
 import requests
 
-def get_contact_list(haravan_token, created_at_min=None, created_at_max=None, limit=None):
-    url = 'https://apis.haravan.com/com/customers.json'
+def get_contact_list(kiotviet_token, retailer, include_total=True, include_customer_group=True, include_customer_social=True, order_direction="desc", order_by="createdDate", page_size=None, current_item=None):
+    url = 'https://public.kiotapi.com/customers'
     
     headers = {
-        'Authorization': f'Bearer {haravan_token}',
-        'Content-Type': 'application/json'
+        'Authorization': f'Bearer {kiotviet_token}',
+        'Retailer': retailer
     }
 
     # Tham số truy vấn
     params = {}
 
-    if created_at_min:
-        params['created_at_min'] = created_at_min
-    if created_at_max:
-        params['created_at_max'] = created_at_max
-    if limit:
-        params['limit'] = limit
+    if include_total:
+        params['includeTotal'] = include_total
+    if include_customer_group:
+        params['includeCustomerGroup'] = include_customer_group
+    if include_customer_social:
+        params['includeCustomerSocial'] = include_customer_social
+    if order_direction:
+        params['orderDirection'] = order_direction
+    if order_by:
+        params['orderBy'] = order_by
+    if page_size:
+        params['pageSize'] = page_size
+    if current_item:
+        params['currentItem'] = current_item
 
     # Gọi API
     response = requests.get(url, headers=headers, params=params)

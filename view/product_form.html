@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sync KiotViet Orders</title>
+    <title>Sync Product</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -11,11 +11,11 @@
 <body>
     <div class="container mt-5">
         <div class="card shadow">
-            <div class="card-header bg-primary text-white">
-                <h2>Sync KiotViet Orders</h2>
+            <div class="card-header bg-success text-white">
+                <h2>Sync Product</h2>
             </div>
             <div class="card-body">
-                <form id="order-form" method="POST">
+                <form id="product-form" method="POST">
                     <div class="form-group">
                         <label for="APP_TOKEN">APP TOKEN:</label>
                         <input type="text" class="form-control" id="APP_TOKEN" name="APP_TOKEN" placeholder="Enter your App Token" required>
@@ -37,40 +37,18 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="RETAILER">Retailer:</label>
-                        <input type="text" class="form-control" id="RETAILER" name="RETAILER" placeholder="Enter Retailer Code" required>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="page_size">Page Size:</label>
-                            <input type="number" class="form-control" id="page_size" name="page_size" placeholder="Enter Page Size (optional)">
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="current_item">Current Item:</label>
-                            <input type="number" class="form-control" id="current_item" name="current_item" placeholder="Enter Current Item (optional)">
-                        </div>
+                        <label for="pageSize">Page Size:</label>
+                        <input type="number" class="form-control" id="pageSize" name="pageSize" placeholder="Enter page size (optional)">
                     </div>
 
                     <div class="form-group">
-                        <label for="order_by">Order By:</label>
-                        <input type="text" class="form-control" id="order_by" name="order_by" placeholder="Order By (e.g., id)">
+                        <label for="currentItem">Current Item:</label>
+                        <input type="number" class="form-control" id="currentItem" name="currentItem" placeholder="Enter current item (optional)">
                     </div>
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="include_payment" name="include_payment">
-                        <label class="form-check-label" for="include_payment">Include Payment</label>
-                    </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="include_order_delivery" name="include_order_delivery">
-                        <label class="form-check-label" for="include_order_delivery">Include Order Delivery</label>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-block mt-3">Sync Orders</button>
+                    <button type="submit" class="btn btn-success btn-block mt-3">Sync Product</button>
                     <div id="loading" class="text-center mt-3" style="display:none;">
-                        <span class="spinner-border text-primary"></span> Loading...
+                        <span class="spinner-border text-success"></span> Loading...
                     </div>
                 </form>
 
@@ -81,18 +59,17 @@
 
     <script>
         $(document).ready(function(){
-            $('#order-form').on('submit', function(e){
+            $('#product-form').on('submit', function(e){
                 e.preventDefault();  // Ngăn chặn form submit thông thường
                 $('#loading').show(); // Hiển thị "Loading..." khi form được submit
                 
                 $.ajax({
-                    url: '/order_form', // URL mà form POST đến
+                    url: '/product_form', // URL mà form POST đến
                     type: 'POST',
                     data: $(this).serialize(), // Lấy tất cả dữ liệu từ form
-                    success: function(response){
+                    success: function(){
                         $('#loading').hide(); // Ẩn "Loading..." khi hoàn tất
-                        $('#result').html(response); // Hiển thị kết quả trả về trên trang
-                        console.log(response); // Ghi kết quả ra console để debug
+                        $('#result').html('Sync complete'); // Chỉ hiển thị thông báo thành công
                     },
                     error: function(error){
                         $('#loading').hide();

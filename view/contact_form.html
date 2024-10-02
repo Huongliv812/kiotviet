@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sync Customer</title>
+    <title>Sync Customer from KiotViet</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -11,8 +11,8 @@
 <body>
     <div class="container mt-5">
         <div class="card shadow">
-            <div class="card-header bg-success text-white">
-                <h2>Sync Customer</h2>
+            <div class="card-header bg-info text-white">
+                <h2>Sync Customer from KiotViet</h2>
             </div>
             <div class="card-body">
                 <form id="customer-form" method="POST">
@@ -32,30 +32,41 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="HARAVAN_TOKEN">HARAVAN TOKEN:</label>
-                        <input type="text" class="form-control" id="HARAVAN_TOKEN" name="HARAVAN_TOKEN" placeholder="Enter Haravan Token" required>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="created_at_min">Created After (YYYY-MM-DD):</label>
-                            <input type="date" class="form-control" id="created_at_min" name="created_at_min">
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="created_at_max">Created Before (YYYY-MM-DD):</label>
-                            <input type="date" class="form-control" id="created_at_max" name="created_at_max">
-                        </div>
+                        <label for="KIOTVIET_TOKEN">KIOTVIET TOKEN:</label>
+                        <input type="text" class="form-control" id="KIOTVIET_TOKEN" name="KIOTVIET_TOKEN" placeholder="Enter KiotViet Token" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="limit">Limit:</label>
-                        <input type="number" class="form-control" id="limit" name="limit" placeholder="Limit (e.g., 50)">
+                        <label for="RETAILER">Retailer:</label>
+                        <input type="text" class="form-control" id="RETAILER" name="RETAILER" placeholder="Enter Retailer Code" required>
                     </div>
 
-                    <button type="submit" class="btn btn-success btn-block mt-3">Sync Customer</button>
+                    <div class="form-group">
+                        <label for="page_size">Page Size:</label>
+                        <input type="number" class="form-control" id="page_size" name="page_size" placeholder="Enter page size (optional)">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="current_item">Current Item:</label>
+                        <input type="number" class="form-control" id="current_item" name="current_item" placeholder="Enter current item (optional)">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="order_direction">Order Direction:</label>
+                        <select class="form-control" id="order_direction" name="order_direction">
+                            <option value="desc">Descending</option>
+                            <option value="asc">Ascending</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="order_by">Order By:</label>
+                        <input type="text" class="form-control" id="order_by" name="order_by" placeholder="Order by field (default: createdDate)">
+                    </div>
+
+                    <button type="submit" class="btn btn-info btn-block mt-3">Sync Customer</button>
                     <div id="loading" class="text-center mt-3" style="display:none;">
-                        <span class="spinner-border text-success"></span> Loading...
+                        <span class="spinner-border text-info"></span> Loading...
                     </div>
                 </form>
 
@@ -71,7 +82,7 @@
                 $('#loading').show(); // Hiển thị "Loading..." khi form được submit
                 
                 $.ajax({
-                    url: '/contact_form', // URL mà form POST đến
+                    url: '/contact_form', // URL mà form POST đến (thay đổi nếu cần)
                     type: 'POST',
                     data: $(this).serialize(), // Lấy tất cả dữ liệu từ form
                     success: function(response){
